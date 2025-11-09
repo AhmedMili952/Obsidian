@@ -16,8 +16,8 @@
     }
     [data-theme="dark"] {
       --bg: #0f1117;
-      --text: #fff;
-      --accent: #2196f3;
+      --text: #eaeaea;
+      --accent: #42a5f5;
       --highlight: #fbc02d;
       --panel: #1a1c23;
     }
@@ -29,7 +29,7 @@
       margin: 50px auto;
       max-width: 900px;
       line-height: 1.6;
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: background 0.4s ease, color 0.4s ease;
     }
 
     h1 {
@@ -96,14 +96,38 @@
       from { opacity: 0; transform: translateY(-6px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* === Correctif couleurs pour le thème sombre === */
+    [data-theme="dark"] b[style*="color:#0074cc"],
+    [data-theme="dark"] a[style*="color:#0074cc"],
+    [data-theme="dark"] span[style*="color:#0074cc"] {
+      color: var(--accent) !important;
+    }
+
+    [data-theme="dark"] b[style*="color:#f9a825"],
+    [data-theme="dark"] span[style*="color:#f9a825"] {
+      color: var(--highlight) !important;
+    }
+
+    [data-theme="dark"] .correction-panel {
+      background: var(--panel);
+      color: var(--text) !important;
+    }
+
+    [data-theme="light"] .correction-panel {
+      background: var(--panel);
+      color: var(--text) !important;
+    }
   </style>
 </head>
+
 <body>
   <button id="themeButton" class="theme-toggle">🌙 Thème sombre</button>
 
   <h1><em>Cours 1 - Découverte des réseaux.pdf</em></h1>
   <h2><span class="title">Définitions et Concepts de Base des Réseaux</span></h2>
 
+  <!-- Réseau -->
   <div class="details-wrap">
     <details class="correction">
       <summary>
@@ -112,12 +136,13 @@
       </summary>
     </details>
   </div>
-  <div class="correction-panel" style="color:#111;">
+  <div class="correction-panel">
     <p><b>Étymologie :</b> Du latin <i>retis</i>, “filet”. Comme une <b style="color:#0074cc;">toile d’araignée</b> : chaque fil représente un <b style="color:#f9a825;">lien de communication</b> entre deux points. Si un point bouge, tout le système réagit.</p>
     <p><b>Définition :</b> Ensemble d’équipements (ordinateurs, serveurs, téléphones…) reliés par des <b style="color:#0074cc;">liens physiques</b> (câbles, fibre optique) ou <b style="color:#0074cc;">sans fil</b> (Wi-Fi, ondes radio), capables de <b style="color:#0074cc;">communiquer</b> et de <b style="color:#0074cc;">partager des ressources</b>.</p>
     <p><b>Exemple :</b> Chez toi, ton ordinateur, ton smartphone et ta box Internet forment un petit réseau local (LAN).</p>
   </div>
 
+  <!-- Protocole -->
   <div class="details-wrap">
     <details class="correction">
       <summary>
@@ -126,13 +151,14 @@
       </summary>
     </details>
   </div>
-  <div class="correction-panel" style="color:#111;">
+  <div class="correction-panel">
     <p><b>Étymologie :</b> Du grec <i>protos</i> (“premier”) et <i>kollon</i> (“colle”) : à l’origine, la <b>feuille de règles</b> collée au début d’un document officiel.  
     Par analogie, un protocole fixe les <b style="color:#f9a825;">règles à suivre avant d’échanger</b>.</p>
     <p><b>Définition :</b> Ensemble de <b style="color:#0074cc;">règles normalisées</b> précisant le <b style="color:#f9a825;">format</b>, la <b style="color:#f9a825;">séquence</b> et la <b style="color:#f9a825;">signification</b> des messages échangés entre deux équipements.</p>
     <p><b>Exemple :</b> Le protocole <b style="color:#0074cc;">HTTP</b> définit comment un navigateur web demande et reçoit une page Internet.</p>
   </div>
 
+  <!-- Communication de données -->
   <div class="details-wrap">
     <details class="correction">
       <summary>
@@ -141,7 +167,7 @@
       </summary>
     </details>
   </div>
-  <div class="correction-panel" style="color:#111;">
+  <div class="correction-panel">
     <p><b>Étymologie :</b> De <i>communicare</i> (“mettre en commun”) et <i>data</i> (“ce qui est donné”).  
     Littéralement : <b style="color:#f9a825;">partager des informations données</b>.</p>
     <p><b>Définition :</b> Processus par lequel deux dispositifs échangent des informations via un <b style="color:#0074cc;">support physique</b> (câble, fibre, ondes radio) en suivant un <b style="color:#f9a825;">protocole</b> commun.</p>
@@ -149,7 +175,7 @@
   </div>
 
   <script>
-    // Lier chaque bouton <details> à son panneau suivant
+    // Affichage / masquage des définitions
     document.querySelectorAll('.details-wrap > details.correction').forEach((det) => {
       const wrap = det.parentElement;
       const panel = wrap.nextElementSibling;
@@ -166,7 +192,7 @@
       });
     });
 
-    // Gestion du thème clair/sombre
+    // Gestion du thème clair/sombre avec stockage local
     const root = document.documentElement;
     const btn = document.getElementById('themeButton');
     const saved = localStorage.getItem('theme') || 'light';
