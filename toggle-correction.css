@@ -66,6 +66,16 @@ h1, h2, p, .qcm-question {
   margin-right: auto;
 }
 
+/* Centrer tout le contenu de chaque question */
+.qcm-question {
+  text-align: center !important;
+}
+
+/* Centrer le texte des options A B C D */
+.qcm-question p {
+  text-align: center !important;
+}
+
 
 
 /* ===========================================================
@@ -233,6 +243,7 @@ h1, h2, p, .qcm-question {
   max-height: none !important;
   will-change: opacity, transform;
 }
+
 
 
 
