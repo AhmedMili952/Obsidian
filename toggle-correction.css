@@ -1,15 +1,20 @@
 /* ===========================================================
-   SNIPPET : toggle-correction.css — VERSION NÉON + ANIMATIONS
+   SNIPPET : toggle-correction.css — VERSION NÉON + NAV LATERALE
    -----------------------------------------------------------
    ✔ Glow néon partout (boutons, panels, score)
    ✔ Fade-in / fade-out restauré
    ✔ QCM full responsive
-   ✔ Aucun JS modifié
+   ✔ Menu latéral verre dépoli (Q1 → Q30)
+   ✔ Score en haut au milieu, animé
    =========================================================== */
 
 /* ========================= */
 /*     FOND D'ÉCRAN GLOBAL   */
 /* ========================= */
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background: url("MontagneNuit.jpg") no-repeat center center fixed;
@@ -21,6 +26,177 @@ body {
   text-align: center;
 }
 
+/* On réserve la place du menu latéral sur desktop */
+@media (min-width: 900px) {
+  body {
+    padding-left: 230px;
+  }
+}
+
+/* ========================= */
+/*  BOUTON BURGER (MOBILE)   */
+/* ========================= */
+
+.nav-toggle {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 950;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 10px;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  font-size: 1.1rem;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: none;
+  box-shadow: 0 0 12px rgba(0,0,0,0.7);
+}
+
+@media (max-width: 899px) {
+  .nav-toggle {
+    display: block;
+  }
+}
+
+/* ========================= */
+/*  MENU LATERAL VERRE       */
+/* ========================= */
+
+.side-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+
+  padding: 18px 14px 18px 14px;
+  box-sizing: border-box;
+
+  background: rgba(10, 10, 25, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-right: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 0 28px rgba(0,0,0,0.9);
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  z-index: 900;
+}
+
+/* Largeur différente selon écran */
+@media (min-width: 900px) {
+  .side-nav {
+    width: 210px;
+  }
+}
+
+@media (max-width: 899px) {
+  .side-nav {
+    width: 220px;
+    transform: translateX(-110%);
+    transition: transform 0.3s ease;
+  }
+
+  .side-nav.open {
+    transform: translateX(0);
+  }
+
+  /* On évite que le h1 soit caché derrière le header mobile */
+  h1 {
+    margin-top: 70px;
+  }
+}
+
+/* En-tête du menu */
+.nav-header {
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.nav-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #e0f3ff;
+  text-shadow: 0 0 10px rgba(0,180,255,0.7);
+}
+
+/* Liste des Q1 → Q30 */
+.nav-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Scroll fin */
+.nav-list::-webkit-scrollbar {
+  width: 6px;
+}
+.nav-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.25);
+  border-radius: 8px;
+}
+
+/* Boutons Q1, Q2, ... */
+.nav-item {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.05);
+  color: #e4f6ff;
+  font-size: 0.95rem;
+  padding: 7px 10px;
+  text-align: center;
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Hover de base */
+@media (hover: hover) and (pointer: fine) {
+  .nav-item:hover {
+    background: rgba(0,140,255,0.3);
+    border-color: rgba(0,200,255,0.9);
+    box-shadow: 0 0 14px rgba(0,160,255,0.7);
+    transform: translateY(-1px);
+  }
+}
+
+/* États colorés liés aux réponses */
+.nav-item--correct {
+  background: linear-gradient(135deg, #00c853, #00e676);
+  border-color: #00ff90;
+  box-shadow: 0 0 18px rgba(0,255,120,0.9);
+  color: #ffffff;
+}
+
+.nav-item--wrong {
+  background: linear-gradient(135deg, #ff5252, #ff1744);
+  border-color: #ffb3b3;
+  box-shadow: 0 0 18px rgba(255,80,80,0.9);
+  color: #ffffff;
+}
+
+.nav-item--missing {
+  background: linear-gradient(135deg, #ffb300, #ffca28);
+  border-color: #ffe082;
+  box-shadow: 0 0 18px rgba(255,210,0,0.9);
+  color: #111111;
+}
 
 /* ========================= */
 /*       TITRES GÉNÉRAUX     */
@@ -32,7 +208,6 @@ h1, h2 {
   text-align: center;
   text-shadow: 0 0 12px rgba(180,220,255,0.7);
 }
-
 
 /* ========================= */
 /*    BLOC DES QCM QUESTIONS */
@@ -57,7 +232,6 @@ h1, h2 {
   }
 }
 
-
 /* ========================= */
 /*        TEXTES QCM         */
 /* ========================= */
@@ -68,12 +242,59 @@ h1, h2 {
   line-height: 1.45;
 }
 
-.qcm-options label {
-  display: inline-block;
-  margin: 4px 0;
-  cursor: pointer;
+/* ===========================================================
+   STYLE DES OPTIONS A/B/C/D — VERSION BOUTONS ARRONDIS MODERNES
+   =========================================================== */
+
+.qcm-options {
+  margin-top: 18px;
 }
 
+.qcm-options label {
+  display: block;
+  background: rgba(20,20,20,0.85);
+  padding: 14px 20px;
+  border-radius: 14px;
+  margin: 10px auto;
+  max-width: 640px;
+  text-align: left;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  font-size: 1rem;
+  line-height: 1.4;
+
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Style du bouton radio */
+.qcm-options input[type="radio"] {
+  margin-right: 10px;
+  transform: scale(1.25);
+}
+
+/* Effet hover néon */
+@media (hover: hover) and (pointer: fine) {
+  .qcm-options label:hover {
+    background: rgba(35,35,35,0.95);
+    transform: translateY(-2px);
+    border-color: #00aaffaa;
+    box-shadow: 0 0 15px #00aaff66;
+  }
+}
+
+/* Option sélectionnée */
+.qcm-options input[type="radio"]:checked + label,
+.qcm-options label:has(input[type="radio"]:checked) {
+  background: rgba(0,110,255,0.85);
+  border-color: #00c3ff;
+  box-shadow: 0 0 18px #009dff99;
+  color: white;
+}
 
 /* ========================= */
 /*  PANNEAU DE CORRECTION    */
@@ -119,7 +340,6 @@ h1, h2 {
   transform: translateY(0);
 }
 
-
 /* ========================= */
 /*   STRUCTURE DES BOUTONS   */
 /* ========================= */
@@ -162,7 +382,6 @@ h1, h2 {
 .correction[open] summary .btn-ferme { opacity: 0; }
 .correction[open] summary .btn-ouvert { opacity: 1; }
 
-
 /* ========================= */
 /*     STYLE DES BOUTONS     */
 /* ========================= */
@@ -192,7 +411,6 @@ h1, h2 {
   box-shadow: 0 0 12px rgba(255,180,80,0.55);
 }
 
-
 /* Hover néon */
 @media (hover: hover) and (pointer: fine) {
   .correction summary span[class^="btn-"]:hover {
@@ -201,27 +419,39 @@ h1, h2 {
   }
 }
 
+/* ========================= */
+/*   SCORE EN HAUT CENTRE    */
+/* ========================= */
 
-/* ========================= */
-/*   SCORE EN HAUT À DROITE  */
-/* ========================= */
+@keyframes neonPulse {
+  0% {
+    box-shadow: 0 0 16px rgba(0,200,255,0.7);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0,255,255,1);
+  }
+  100% {
+    box-shadow: 0 0 16px rgba(0,200,255,0.7);
+  }
+}
 
 .score-result {
   position: fixed;
-  top: 20px;
-  right: 22px;
+  top: 18px;
+  left: 50%;
+  transform: translate(-50%, -14px);
 
-  background: rgba(0,0,0,0.80);
+  background: rgba(0,0,0,0.83);
   color: #fff;
 
-  padding: 14px 20px;
-  border-radius: 15px;
+  padding: 12px 22px;
+  border-radius: 18px;
   font-weight: 700;
+  font-size: 0.98rem;
 
   opacity: 0;
-  transform: translateY(-8px);
 
-  box-shadow: 0 0 18px rgba(0,200,255,0.55);
+  box-shadow: 0 0 16px rgba(0,200,255,0.7);
 
   transition: opacity 0.4s ease, transform 0.35s ease;
   z-index: 1000;
@@ -229,9 +459,9 @@ h1, h2 {
 
 .score-result.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, 0);
+  animation: neonPulse 1.5s ease-in-out 2;
 }
-
 
 /* ========================= */
 /*  BOUTONS VALIDER / RESET  */
@@ -292,57 +522,4 @@ h1, h2 {
     transform: scale(0.95);
     box-shadow: 0 0 10px rgba(0,255,120,0.55);
   }
-}
-
-/* ===========================================================
-   STYLE DES OPTIONS A/B/C/D — VERSION BOUTONS ARRONDIS MODERNES
-   Compatible 100% avec ton thème néon + animations
-   =========================================================== */
-
-.qcm-options {
-  margin-top: 18px;
-}
-
-.qcm-options label {
-  display: block;
-  background: rgba(20,20,20,0.85);
-  padding: 14px 20px;
-  border-radius: 14px;
-  margin: 10px auto;
-  max-width: 640px;
-  text-align: left;
-  cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.08);
-
-  font-size: 1rem;
-  line-height: 1.4;
-
-  transition:
-    background 0.25s ease,
-    transform 0.2s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
-}
-
-/* Style du bouton radio */
-.qcm-options input[type="radio"] {
-  margin-right: 10px;
-  transform: scale(1.25);
-}
-
-/* Effet hover néon */
-.qcm-options label:hover {
-  background: rgba(35,35,35,0.95);
-  transform: translateY(-2px);
-  border-color: #00aaffaa;
-  box-shadow: 0 0 15px #00aaff66;
-}
-
-/* Option sélectionnée */
-.qcm-options input[type="radio"]:checked + label,
-.qcm-options label:has(input[type="radio"]:checked) {
-  background: rgba(0,110,255,0.85);
-  border-color: #00c3ff;
-  box-shadow: 0 0 18px #009dff99;
-  color: white;
 }
